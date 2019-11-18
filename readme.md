@@ -35,3 +35,7 @@ Here are some configurable environment values.
 - `PHP_UPLOAD_MAX_FILESIZE` - Maximum file upload file. Default: `10M`.
 - `RUN_SCHEDULER` - Should the Laravel scheduler command run. Default: `0`.
 - `RUN_MIGRATIONS_ON_BUILD` - Should the migrate command run during build. Default: `0`.
+- `STARTUP_SCRIPT` - Optional script to run after container starts. Path should be an absolute path eg. `/var/www/deploy/start.sh` or relative to `WEBROOT` eg. `deploy/start.sh`
+- `CRON_FILE` - Optional path to a cron file, content of file will be copied to crontab. Path should be an absolute path eg. `/var/www/deploy/cron.txt` or relative to `WEBROOT` eg. `deploy/cron.txt`
+
+Source: [https://github.com/AVONnadozie/docker-laravel-server](https://github.com/AVONnadozie/docker-laravel-server)

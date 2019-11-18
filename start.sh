@@ -8,6 +8,17 @@ else
     export WEBROOT_PUBLIC=/var/www/public
 fi
 
+# Setup cron file
+if [[ ! -z "${CRON_FILE}" ]]; then
+    # Copy hello-cron file to the cron.d directory
+    cp ${CRON_FILE} /etc/crontabs/root
+    # Give execution rights on the cron job
+    chmod 0644 /etc/crontabs/root
+    # Apply cron job
+    crontab /etc/crontabs/root
+    crond
+fi
+
 # UPDATE COMPOSER PACKAGES ON BUILD.
 ## 💡 THIS MAY MAKE THE BUILD SLOWER BECAUSE IT HAS TO FETCH PACKAGES.
 if [[ ! -z "${COMPOSER_DIRECTORY}" ]] && [[ "${COMPOSER_INSTALL_ON_BUILD}" == "1" ]]; then
@@ -23,7 +34,7 @@ fi
 
 # LARAVEL SCHEDULER
 if [[ "${RUN_SCHEDULER}" == "1" ]]; then
-    echo '* * * * * cd /var/www && php artisan schedule:run >> /dev/null 2>&1' > /etc/crontabs/root
+    echo "* * * * * cd ${WEBROOT} && php artisan schedule:run >> /dev/null 2>&1" >> /etc/crontabs/root
     crond
 fi
 
@@ -56,6 +67,12 @@ fi
 
 
 find /etc/php7/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
+
+# RUN STARTUP SCRIPT IN BACKGROUND
+if [[ ! -z "${STARTUP_SCRIPT}" ]]; then
+    chmod a+x ${STARTUP_SCRIPT}
+    source ${STARTUP_SCRIPT} &
+fi
 
 # START SUPERVISOR.
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
