@@ -2,7 +2,7 @@
 FROM avonnadozie/nginx-php-server
 
 # Install BCMath PHP Extension required by Laravel
-RUN apk add --update php-bcmath php-gd
+RUN apk add --update php-bcmath php-gd php-curl
 
 # REPLACE START SCRIPT!
 ADD start.sh /start.sh
