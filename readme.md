@@ -6,7 +6,7 @@ Laravel web server with Nginx.
 
 You can get up and running with a Laravel application inside Docker in minutes.
 ```
-$ docker run -d -p 5000:80 --rm --name=my-laravel-app -v $PWD:/var/www avonnadozie/laravel-server
+$ docker run -d -p 5000:80 --rm --name=my-laravel-app -v $PWD:/var/www avonnadozie/nginx-laravel-server
 ```
 
 - Visit the Docker container URL [http://0.0.0.0:5000](http://0.0.0.0:5000)
